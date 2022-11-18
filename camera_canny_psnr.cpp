@@ -13,9 +13,26 @@ using namespace cv;
 /* ground_crew.h264: 1280x720 */
 /* tiger_face.jpg: 888x900 */
 
-#define WIDTH 640
-#define HEIGHT 480
-#define NFRAME 30.0
+int WIDTH 640
+int HEIGHT 480
+float NFRAME 30.0
+
+void ERRMSG() {
+   fprintf(stderr,"\n<USAGE> %s sigma tlow thigh [-d writedirim] [-f file] \n",argv[0]);
+   fprintf(stderr,"      sigma:      Standard deviation of the gaussian");
+   fprintf(stderr," blur kernel.\n");
+   fprintf(stderr,"      tlow:       Fraction (0.0-1.0) of the high ");
+   fprintf(stderr,"edge strength threshold.\n");
+   fprintf(stderr,"      thigh:      Fraction (0.0-1.0) of the distribution");
+   fprintf(stderr," of non-zero edge\n                  strengths for ");
+   fprintf(stderr,"hysteresis. The fraction is used to compute\n");
+   fprintf(stderr,"                  the high edge strength threshold.\n");
+   fprintf(stderr,"      writedirim: Optional argument to output ");
+   fprintf(stderr,                  "a floating point direction image.\n\n");
+   fprintf(stderr,"      file: Optional argument to take in a file. If no file ");
+   fprintf(stderr,"is provided, the camera will be accessed on the rpi by default.\n\n");
+   exit(1);
+}
 
 int main(int argc, char **argv)
 {
@@ -33,24 +50,12 @@ int main(int argc, char **argv)
 			        gradient image that passes non-maximal
 			        suppression. */
    int count;            /* Frame count iterator */
-
+   char *infile;
    /****************************************************************************
    * Get the command line arguments.
    ****************************************************************************/
    if(argc < 4){
-   fprintf(stderr,"\n<USAGE> %s sigma tlow thigh [writedirim]\n",argv[0]);
-      fprintf(stderr,"      sigma:      Standard deviation of the gaussian");
-      fprintf(stderr," blur kernel.\n");
-      fprintf(stderr,"      tlow:       Fraction (0.0-1.0) of the high ");
-      fprintf(stderr,"edge strength threshold.\n");
-      fprintf(stderr,"      thigh:      Fraction (0.0-1.0) of the distribution");
-      fprintf(stderr," of non-zero edge\n                  strengths for ");
-      fprintf(stderr,"hysteresis. The fraction is used to compute\n");
-      fprintf(stderr,"                  the high edge strength threshold.\n");
-      fprintf(stderr,"      writedirim: Optional argument to output ");
-      fprintf(stderr,"a floating point");
-      fprintf(stderr," direction image.\n\n");
-      exit(1);
+      ERRMSG();
    }
 
    sigma = atof(argv[1]);
@@ -59,8 +64,24 @@ int main(int argc, char **argv)
    rows = HEIGHT;
    cols = WIDTH;
 
-   if(argc == 5) dirfilename = (char *) "dummy";
-	 else dirfilename = NULL;
+	dirfilename = NULL;
+   int opt;
+   while((opt = getopt(argc, argv, "d:f:")) != -1){
+      switch(opt){
+         case 'd':
+            printf("[INFO] option d passed to program\n");
+            dirfilename = (char *) "dummy";
+            break;
+         case 'f':
+            printf("[INFO] option f passed to program\n");
+            infile = optarg;
+            printf("infile = '%s'\n", infile);
+            break;
+         case '?': 
+            ERRMSG();
+            break;
+      }
+      exit();
 
    VideoCapture cap;
    // open the default camera (/dev/video0) OR a video OR an image
