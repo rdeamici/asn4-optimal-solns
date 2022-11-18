@@ -1,4 +1,4 @@
-=/**
+/**
 */
 #include <iostream>
 #include <unistd.h>
@@ -75,7 +75,8 @@ int main(int argc, char **argv)
             infile = optarg;
             if (strcmp(infile,"tiger_face.jpg") == 0) {
                NFRAME = 1;
-            } else if (strcmp(infile,"ground_crew.h264") != 0) {
+            }
+            else if (strcmp(infile,"ground_crew.h264") != 0) {
                printf("[ERROR] UNKNOW input file: %s\n",infile);
                ERRMSG(argv[0]);
             }
@@ -90,27 +91,29 @@ int main(int argc, char **argv)
    tlow = atof(argv[2]);
    thigh = atof(argv[3]);
 
-   VideoCapture cap;
    // open the default camera (/dev/video0) OR a video OR an image
    // Check VideoCapture documentation for more details
+   VideoCapture cap(infile);
+
    if(infile == NULL) {
+      printf("opening default camera\n");
       if(!cap.open(0)) {
          printf("Failed to open media\n");
         return 0;
       }
       // Set input resolution when the video is captured from /dev/video*, i.e. the webcam.
-      cap.set(CAP_PROP_FRAME_WIDTH, MWIDTH);
-      cap.set(CAP_PROP_FRAME_HEIGHT, MHEIGHT);
-
-      printf("setting input resolution to %d x %d\n",MWIDTH, MHEIGHT);
+      //cap.set(CAP_PROP_FRAME_WIDTH, MWIDTH);
+      //cap.set(CAP_PROP_FRAME_HEIGHT, MHEIGHT);
+     // printf("setting input resolution to %d x %d\n",MWIDTH, MHEIGHT);
    }
-   else if(!cap.open(infile)) {
-      printf("Failed to open media\n");
-      return 0;
+   else {
+      printf("opening %s\n",infile);
+      if(!cap.open(infile)) {
+         printf("Failed to open media\n");
+         return 0;
+      }
    }
    printf("Media Input: %.0f, %.0f\n",cap.get(CAP_PROP_FRAME_WIDTH), cap.get(CAP_PROP_FRAME_HEIGHT));
-   rows = MHEIGHT;
-   cols = MWIDTH;
 
    // For low-end CPUs, may wait a while until camera stabilizes
    printf("Sleep 3 seconds for camera stabilization...\n");
@@ -132,17 +135,23 @@ int main(int argc, char **argv)
          HEIGHT = LHEIGHT;
       }
 
+      rows = HEIGHT;
+      cols = WIDTH;
       count = 0;
       gettimeofday(&start,NULL);
       printf("=== Start Canny Edge Detection_%d: %.0f frames ===\n",i, NFRAME);
+
       while(count<NFRAME) {
          //capture
          cap >> frame;
-         cvtColor(frame, grayframe, COLOR_BGR2GRAY);
+         if (frame.empty()) {
+            printf("blank frame!\n");
+            exit(1);
+         }
 
-         if (i != 1) // don't resize if it is medium size
-            resize(grayframe, grayframe, Size(WIDTH, HEIGHT), 0, 0, INTER_LINEAR);
          //extract the image in gray format
+         cvtColor(frame, grayframe, COLOR_BGR2GRAY);
+         resize(grayframe, grayframe, Size(WIDTH, HEIGHT), 0, 0, INTER_LINEAR);
          image = grayframe.data;
 
          /****************************************************************************
