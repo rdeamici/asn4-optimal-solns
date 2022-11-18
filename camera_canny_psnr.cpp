@@ -66,6 +66,12 @@ int main(int argc, char **argv)
    }
 
    dirfilename = NULL;
+   sigma = atof(argv[1]);
+   tlow = atof(argv[2]);
+   thigh = atof(argv[3]);
+   rows = MHEIGHT;
+   cols = MWIDTH;
+
    while((opt = getopt(argc, argv, "df:")) != -1){
       switch(opt){
          case 'd':
@@ -86,25 +92,36 @@ int main(int argc, char **argv)
             break;
       }
    }
-
-   sigma = atof(argv[1]);
-   tlow = atof(argv[2]);
-   thigh = atof(argv[3]);
-
    // open the default camera (/dev/video0) OR a video OR an image
    // Check VideoCapture documentation for more details
-   VideoCapture cap(infile);
+   VideoCapture cap;
+   Mat frame, grayframe;
 
    if(infile == NULL) {
       printf("opening default camera\n");
-      if(!cap.open(0)) {
+      VideoCapture incap;
+      if(!incap.open(0)) {
          printf("Failed to open media\n");
         return 0;
       }
-      // Set input resolution when the video is captured from /dev/video*, i.e. the webcam.
+      // create video to process
+      for(count = 0; count < NFRAME; count++) {
+         //capture
+         incap >> frame;
+         resize(frame, frame, Size(MWIDTH, MHEIGHT), 0, 0, INTER_LINEAR);
+
+         //extract the image in gray format
+         cvtColor(frame, grayframe, COLOR_BGR2GRAY);
+         image = grayframe.data;
+         // save image
+         sprintf(outfilename, "REALTIME/IMG_%03d.pgm" , count);
+         if(write_pgm_image(outfilename, image, rows, cols, NULL, 255) == 0){
+            fprintf(stderr, "Error writing the raw image, %s.\n", outfilename);
+            exit(1);
+         }
+      }
       //cap.set(CAP_PROP_FRAME_WIDTH, MWIDTH);
       //cap.set(CAP_PROP_FRAME_HEIGHT, MHEIGHT);
-     // printf("setting input resolution to %d x %d\n",MWIDTH, MHEIGHT);
    }
    else {
       printf("opening %s\n",infile);
@@ -119,7 +136,6 @@ int main(int argc, char **argv)
    printf("Sleep 3 seconds for camera stabilization...\n");
    usleep(3*1e6);
 
-   Mat frame, grayframe;
 
 
    struct timeval start, end;
@@ -141,11 +157,21 @@ int main(int argc, char **argv)
       gettimeofday(&start,NULL);
       printf("=== Start Canny Edge Detection_%d: %.0f frames ===\n",i, NFRAME);
 
+      // for realtime, need to reset image read on each loop
+      if(infile == NULL) {
+         if(!cap.open("REALTIME/IMG_%03d.pgm")) {
+            printf("Failed to open media\n");
+            return 0;
+         }
+      }
+
+      if(!cap.isOpened()) printf("Failed to open image sequence\n");
+
       while(count<NFRAME) {
          //capture
          cap >> frame;
          if (frame.empty()) {
-            printf("blank frame!\n");
+            printf("blank frame_%d!\n",count);
             exit(1);
          }
 
