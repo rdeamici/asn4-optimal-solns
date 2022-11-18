@@ -18,7 +18,7 @@ int HEIGHT = 480;
 float NFRAME = 30.0;
 
 void ERRMSG(char* filename) {
-   fprintf(stderr,"\n<USAGE> %s sigma tlow thigh [-d writedirim] [-f file] \n",filename);
+   fprintf(stderr,"\n<USAGE> %s sigma tlow thigh [-d writedirim] [-f tiger_face.jpg | ground_crew.h264] \n",filename);
    fprintf(stderr,"      sigma:      Standard deviation of the gaussian");
    fprintf(stderr," blur kernel.\n");
    fprintf(stderr,"      tlow:       Fraction (0.0-1.0) of the high ");
@@ -50,7 +50,8 @@ int main(int argc, char **argv)
 			        gradient image that passes non-maximal
 			        suppression. */
    int count;            /* Frame count iterator */
-   char *infile;
+   char *infile = NULL;
+   int opt;
    /****************************************************************************
    * Get the command line arguments.
    ****************************************************************************/
@@ -58,44 +59,51 @@ int main(int argc, char **argv)
       ERRMSG(argv[0]);
    }
 
-   sigma = atof(argv[1]);
-   tlow = atof(argv[2]);
-   thigh = atof(argv[3]);
-   rows = HEIGHT;
-   cols = WIDTH;
-
 	dirfilename = NULL;
-   int opt;
    while((opt = getopt(argc, argv, "df:")) != -1){
       switch(opt){
          case 'd':
-            printf("[INFO] option d passed to program\n");
             dirfilename = (char *) "dummy";
             break;
          case 'f':
-            printf("[INFO] option f passed to program\n");
             infile = optarg;
-            printf("infile = '%s'\n", infile);
+            if (infile == "tiger_face.jpg") {
+               WIDTH = 888;
+               HEIGHT = 900;
+            } else if (infile == "ground_crew.h264") {
+               WIDTH = 1280;
+               HEIGHT = 720;
+            } else {
+               printf("[ERROR] UNKNOW input file: %s\n",infile);
+               ERRMSG(argv[0]);
+            }
             break;
          case '?':
             ERRMSG(argv[0]);
             break;
       }
    }
-   exit(1);
+   
+   sigma = atof(argv[1]);
+   tlow = atof(argv[2]);
+   thigh = atof(argv[3]);
+   rows = HEIGHT;
+   cols = WIDTH;
 
    VideoCapture cap;
    // open the default camera (/dev/video0) OR a video OR an image
    // Check VideoCapture documentation for more details
-   if(!cap.open(0)){
-//   if(!cap.open("ground_crew.h264")){
-//   if(!cap.open("tiger_face.jpg")){
-				printf("Failed to open media\n");
-        return 0;
-	 }
-//	 cap.set(CAP_PROP_FRAME_WIDTH, WIDTH); // Set input resolution when the video is captured from /dev/video*, i.e. the webcam.
-//   cap.set(CAP_PROP_FRAME_HEIGHT,HEIGHT);
-	 printf("Media Input: %.0f, %.0f\n", cap.get(CAP_PROP_FRAME_WIDTH), cap.get(CAP_PROP_FRAME_HEIGHT));
+   if(infile == NULL && !cap.open(0)) {
+      printf("Failed to open media\n");
+      return 0;
+   } 
+   else if(!cap.open(infile)) {
+      printf("Failed to open media\n");
+      return 0;
+	}
+	cap.set(CAP_PROP_FRAME_WIDTH, WIDTH); // Set input resolution when the video is captured from /dev/video*, i.e. the webcam.
+   cap.set(CAP_PROP_FRAME_HEIGHT,HEIGHT);
+	printf("Media Input: %.0f, %.0f\n", cap.get(CAP_PROP_FRAME_WIDTH), cap.get(CAP_PROP_FRAME_HEIGHT));
 
 	 // For low-end CPUs, may wait a while until camera stabilizes
    printf("Sleep 3 seconds for camera stabilization...\n");
