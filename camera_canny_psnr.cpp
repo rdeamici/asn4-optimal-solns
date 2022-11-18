@@ -1,4 +1,4 @@
-/**
+=/**
 */
 #include <iostream>
 #include <unistd.h>
@@ -14,8 +14,13 @@ using namespace cv;
 /* ground_crew.h264: 1280x720 */
 /* tiger_face.jpg: 888x900 */
 
-int WIDTH = 640;
-int HEIGHT = 480;
+int HEIGHT, WIDTH;
+int LWIDTH = 1500;
+int LHEIGHT = 1350;
+int MWIDTH = 640;
+int MHEIGHT = 480;
+int SWIDTH = 300;
+int SHEIGHT = 200;
 float NFRAME = 30.0;
 
 void ERRMSG(char* filename) {
@@ -37,10 +42,10 @@ void ERRMSG(char* filename) {
 
 int main(int argc, char **argv)
 {
-   char* dirfilename;        /* Name of the output gradient direction image */
+   char* dirfilename; /* Name of the output gradient direction image */
    char outfilename[128];    /* Name of the output "edge" image */
    char composedfname[128];  /* Name of the output "direction" image */
-   unsigned char *image;     /* The input image */
+   unsigned char* image;     /* The input images */
    unsigned char *edge;      /* The output edge image */
    int rows, cols;           /* The dimensions of the image. */
    float sigma,              /* Standard deviation of the Gaussian kernel. */
@@ -60,7 +65,7 @@ int main(int argc, char **argv)
       ERRMSG(argv[0]);
    }
 
-	dirfilename = NULL;
+   dirfilename = NULL;
    while((opt = getopt(argc, argv, "df:")) != -1){
       switch(opt){
          case 'd':
@@ -84,8 +89,6 @@ int main(int argc, char **argv)
    sigma = atof(argv[1]);
    tlow = atof(argv[2]);
    thigh = atof(argv[3]);
-   rows = HEIGHT;
-   cols = WIDTH;
 
    VideoCapture cap;
    // open the default camera (/dev/video0) OR a video OR an image
@@ -95,106 +98,139 @@ int main(int argc, char **argv)
          printf("Failed to open media\n");
         return 0;
       }
-      printf("setting input resolution to %f x %f",WIDTH, HEIGHT);
       // Set input resolution when the video is captured from /dev/video*, i.e. the webcam.
-      cap.set(CAP_PROP_FRAME_WIDTH, WIDTH);
-      cap.set(CAP_PROP_FRAME_HEIGHT, HEIGHT);
+      cap.set(CAP_PROP_FRAME_WIDTH, MWIDTH);
+      cap.set(CAP_PROP_FRAME_HEIGHT, MHEIGHT);
+
+      printf("setting input resolution to %d x %d\n",MWIDTH, MHEIGHT);
    }
    else if(!cap.open(infile)) {
       printf("Failed to open media\n");
       return 0;
    }
    printf("Media Input: %.0f, %.0f\n",cap.get(CAP_PROP_FRAME_WIDTH), cap.get(CAP_PROP_FRAME_HEIGHT));
+   rows = MHEIGHT;
+   cols = MWIDTH;
+
    // For low-end CPUs, may wait a while until camera stabilizes
    printf("Sleep 3 seconds for camera stabilization...\n");
    usleep(3*1e6);
-   printf("=== Start Canny Edge Detection: %.0f frames ===\n", NFRAME);
 
-	Mat frame, grayframe;
+   Mat frame, grayframe;
 
 
-   count = 0;
    struct timeval start, end;
-   gettimeofday(&start,NULL);
-   while(count<NFRAME) {
-     //capture
-		 cap >> frame;
-		 resize(frame, frame, Size(WIDTH, HEIGHT), 0, 0, INTER_LINEAR);
-     //extract the image in gray format
-		 cvtColor(frame, grayframe, COLOR_BGR2GRAY);
-	   image = grayframe.data;
+   for(int i = 0; i < 3; i++) {
+      if (i==0) {
+         WIDTH = SWIDTH;
+         HEIGHT = SHEIGHT;
+      } else if (i==1) {
+         WIDTH = MWIDTH;
+         HEIGHT = MHEIGHT;
+      } else {
+         WIDTH = LWIDTH;
+         HEIGHT = LHEIGHT;
+      }
 
-     /****************************************************************************
-     * Perform the edge detection. All of the work takes place here.
-     ****************************************************************************/
-     if(VERBOSE) printf("Starting Canny edge detection.\n");
-     if(dirfilename != NULL){
-        sprintf(composedfname, "camera_s_%3.2f_l_%3.2f_h_%3.2f_%d.fim",
-        sigma, tlow, thigh,count);
-        dirfilename = composedfname;
-     }
+      count = 0;
+      gettimeofday(&start,NULL);
+      printf("=== Start Canny Edge Detection_%d: %.0f frames ===\n",i, NFRAME);
+      while(count<NFRAME) {
+         //capture
+         cap >> frame;
+         cvtColor(frame, grayframe, COLOR_BGR2GRAY);
 
-     /****************************************************************************
-     *Apply Canny Edge Detection Algorithm
-     ****************************************************************************/
-     canny(image, rows, cols, sigma, tlow, thigh, &edge, dirfilename);
+         if (i != 1) // don't resize if it is medium size
+            resize(grayframe, grayframe, Size(WIDTH, HEIGHT), 0, 0, INTER_LINEAR);
+         //extract the image in gray format
+         image = grayframe.data;
+
+         /****************************************************************************
+         * Perform the edge detection. All of the work takes place here.
+         ****************************************************************************/
+         if(VERBOSE) printf("Starting Canny edge detection.\n");
+         if(dirfilename != NULL){
+            sprintf(composedfname, "camera_s_%3.2f_l_%3.2f_h_%3.2f_%d.fim",
+            sigma, tlow, thigh,count);
+            dirfilename = composedfname;
+         }
+
+         /****************************************************************************
+         *Apply Canny Edge Detection Algorithm
+         ****************************************************************************/
+         canny(image, rows, cols, sigma, tlow, thigh, &edge, dirfilename);
 
 
-     /****************************************************************************
-     * Write out the edge image to a file.
-     ****************************************************************************/
-     sprintf(outfilename, "EDGE_%03d.pgm", count);
-     if(VERBOSE) printf("Writing the edge image in the file %s.\n", outfilename);
-     if(write_pgm_image(outfilename, edge, rows, cols, NULL, 255) == 0){
-        fprintf(stderr, "Error writing the edge image, %s.\n", outfilename);
-        exit(1);
-     }
+         /****************************************************************************
+         * Write out the edge image to a file.
+         ****************************************************************************/
+         if      (i == 0) sprintf(outfilename,  "SMALL/EDGE_%03d.pgm" , count);
+         else if (i == 1) sprintf(outfilename, "MEDIUM/EDGE_%03d.pgm", count);
+         else if (i == 2) sprintf(outfilename,  "LARGE/EDGE_%03d.pgm", count);
 
-     /****************************************************************************
-     * Write out the captured image to a file.
-     ****************************************************************************/
-     sprintf(outfilename, "RAW_%03d.pgm", count);
-     if(VERBOSE) printf("Writing the edge image in the file %s.\n", outfilename);
-     if(write_pgm_image(outfilename, image, rows, cols, NULL, 255) == 0){
-        fprintf(stderr, "Error writing the edge image, %s.\n", outfilename);
-        exit(1);
-     }
-     count++;
-   } //end of while loop
+         if(VERBOSE) printf("Writing the edge image in the file %s.\n", outfilename);
 
-     /****************************************************************************
-     * Get FPS information.
-     ****************************************************************************/
-   gettimeofday(&end,NULL);
-   double time_elapsed =  ((end.tv_sec*1000000 + end.tv_usec) - (start.tv_sec*1000000 +start.tv_usec));
-   printf("=== Finish Canny Edge Detection ===\n");
-   printf("Total Elapsed Time : %lf sec.\n", time_elapsed/1000000);
-   printf("FPS: %4f.\n", NFRAME/(time_elapsed/1000000));
+         if(write_pgm_image(outfilename, edge, rows, cols, NULL, 255) == 0){
+            fprintf(stderr, "Error writing the edge image, %s.\n", outfilename);
+            exit(1);
+         }
 
-   /****************************************************************************
-   * Read the edge detected files and raw_images and calculate PSNR.
-   ****************************************************************************/
-   count = 0;
-   char raw_image_name[128];
-   char edge_image_name[128];
-   double PSNR = 0.0;
+         /****************************************************************************
+         * Write out the captured image to a file.
+         ****************************************************************************/
+         if      (i == 0) sprintf(outfilename, "SMALL/RAW_%03d.pgm" , count);
+         else if (i == 1) sprintf(outfilename,"MEDIUM/RAW_%03d.pgm", count);
+         else if (i == 2) sprintf(outfilename, "LARGE/RAW_%03d.pgm", count);
 
-   if(VERBOSE) printf("Calculating PSNR value...\n");
-   while(count<NFRAME) {
+         if(VERBOSE) printf("Writing the raw image in the file %s.\n", outfilename);
 
-     /* Get the edge image name */
-     sprintf(edge_image_name, "EDGE_%03d.pgm", count);
+         if(write_pgm_image(outfilename, image, rows, cols, NULL, 255) == 0){
+            fprintf(stderr, "Error writing the raw image, %s.\n", outfilename);
+            exit(1);
+         }
+         count++;
+      } //end of while loop
 
-    /* Get the raw image name */
-     sprintf(raw_image_name, "RAW_%03d.pgm", count);
-     PSNR = PSNR + calcpsnr(raw_image_name, edge_image_name);
-     count++;
-     }
+      /****************************************************************************
+      * Get FPS information.
+      ****************************************************************************/
+      gettimeofday(&end,NULL);
+      double time_elapsed =  ((end.tv_sec*1000000 + end.tv_usec) - (start.tv_sec*1000000 +start.tv_usec));
+      printf("=== Finish Canny Edge Detection_%d ===\n",i);
+      printf("Total Elapsed Time : %lf sec.\n", time_elapsed/1000000);
+      printf("FPS: %4f.\n", NFRAME/(time_elapsed/1000000));
 
-     PSNR = PSNR / NFRAME;
-     printf("Average PSNR value = %3.2f \n", PSNR);
+      /****************************************************************************
+      * Read the edge detected files and raw_images and calculate PSNR.
+      ****************************************************************************/
+      count = 0;
+      char raw_image_name[128];
+      char edge_image_name[128];
+      double PSNR = 0.0;
 
-    //free resources
-//    delete image;
-    return 0;
+      if(VERBOSE) printf("Calculating PSNR value...\n");
+      while(count<NFRAME) {
+         if (i == 0) {
+            /* Get the edge image name */
+            sprintf(edge_image_name, "SMALL/EDGE_%03d.pgm", count);
+            /* Get the raw image name */
+            sprintf(raw_image_name,  "SMALL/RAW_%03d.pgm", count);
+         } else if (i == 1) {
+            sprintf(edge_image_name, "MEDIUM/EDGE_%03d.pgm", count);
+            sprintf(raw_image_name,  "MEDIUM/RAW_%03d.pgm", count);
+         } else if (i == 2) {
+            sprintf(edge_image_name, "LARGE/EDGE_%03d.pgm", count);
+            sprintf(raw_image_name, "LARGE/RAW_%03d.pgm", count);
+         }
+         PSNR = PSNR + calcpsnr(raw_image_name, edge_image_name);
+         count++;
+      }
+
+      PSNR = PSNR / NFRAME;
+      printf("Average PSNR value = %3.2f \n", PSNR);
+
+      //free resources
+      //delete image;
+   } // end for loop
+   return 0;
 }
