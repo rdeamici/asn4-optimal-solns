@@ -71,6 +71,7 @@ int main(int argc, char **argv)
             if (strcmp(infile,"tiger_face.jpg") == 0) {
                WIDTH = 888;
                HEIGHT = 900;
+               NFRAME = 1;
             } else if (strcmp(infile,"ground_crew.h264") == 0) {
                WIDTH = 1280;
                HEIGHT = 720;
