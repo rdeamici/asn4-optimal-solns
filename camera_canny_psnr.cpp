@@ -69,13 +69,8 @@ int main(int argc, char **argv)
          case 'f':
             infile = optarg;
             if (strcmp(infile,"tiger_face.jpg") == 0) {
-               WIDTH = 888;
-               HEIGHT = 900;
                NFRAME = 1;
-            } else if (strcmp(infile,"ground_crew.h264") == 0) {
-               WIDTH = 1280;
-               HEIGHT = 720;
-            } else {
+            } else if (strcmp(infile,"ground_crew.h264") != 0) {
                printf("[ERROR] UNKNOW input file: %s\n",infile);
                ERRMSG(argv[0]);
             }
@@ -107,14 +102,16 @@ int main(int argc, char **argv)
       printf("Failed to open media\n");
       return 0;
    }
-   printf("Media Input: %.0f, %.0f\n", cap.get(CAP_PROP_FRAME_WIDTH), cap.get(CAP_PROP_FRAME_HEIGHT));
+   rows = cap.get(CAP_PROP_FRAME_HEIGHT);
+   cols = cap.get(CAP_PROP_FRAME_WIDTH);
+   printf("Media Input: %.0f, %.0f\n", cols, rows);
 
     // For low-end CPUs, may wait a while until camera stabilizes
    printf("Sleep 3 seconds for camera stabilization...\n");
    usleep(3*1e6);
    printf("=== Start Canny Edge Detection: %.0f frames ===\n", NFRAME);
 
-	 Mat frame, grayframe;
+	Mat frame, grayframe;
 
 
    count = 0;
