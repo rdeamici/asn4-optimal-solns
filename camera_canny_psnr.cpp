@@ -95,19 +95,16 @@ int main(int argc, char **argv)
          printf("Failed to open media\n");
         return 0;
       }
-   // Set input resolution when the video is captured from /dev/video*, i.e. the webcam.
-   cap.set(CAP_PROP_FRAME_WIDTH, WIDTH);
-   cap.set(CAP_PROP_FRAME_HEIGHT, HEIGHT);
+      printf("setting input resolution to %f x %f",WIDTH, HEIGHT);
+      // Set input resolution when the video is captured from /dev/video*, i.e. the webcam.
+      cap.set(CAP_PROP_FRAME_WIDTH, WIDTH);
+      cap.set(CAP_PROP_FRAME_HEIGHT, HEIGHT);
    }
    else if(!cap.open(infile)) {
       printf("Failed to open media\n");
       return 0;
    }
    printf("Media Input: %.0f, %.0f\n",cap.get(CAP_PROP_FRAME_WIDTH), cap.get(CAP_PROP_FRAME_HEIGHT));
-   rows = HEIGHT = cap.get(CAP_PROP_FRAME_HEIGHT);
-   cols = WIDTH = cap.get(CAP_PROP_FRAME_WIDTH);
-   printf("rows = %d, cols = %d\n",rows, cols);
-   printf("HEIGHT = %d, WIDTH = %d\n",HEIGHT, WIDTH);
    // For low-end CPUs, may wait a while until camera stabilizes
    printf("Sleep 3 seconds for camera stabilization...\n");
    usleep(3*1e6);
