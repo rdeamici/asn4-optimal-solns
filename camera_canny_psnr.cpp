@@ -13,12 +13,12 @@ using namespace cv;
 /* ground_crew.h264: 1280x720 */
 /* tiger_face.jpg: 888x900 */
 
-int WIDTH 640
-int HEIGHT 480
-float NFRAME 30.0
+int WIDTH = 640;
+int HEIGHT = 480;
+float NFRAME = 30.0;
 
-void ERRMSG() {
-   fprintf(stderr,"\n<USAGE> %s sigma tlow thigh [-d writedirim] [-f file] \n",argv[0]);
+void ERRMSG(char* filename) {
+   fprintf(stderr,"\n<USAGE> %s sigma tlow thigh [-d writedirim] [-f file] \n",filename);
    fprintf(stderr,"      sigma:      Standard deviation of the gaussian");
    fprintf(stderr," blur kernel.\n");
    fprintf(stderr,"      tlow:       Fraction (0.0-1.0) of the high ");
@@ -55,7 +55,7 @@ int main(int argc, char **argv)
    * Get the command line arguments.
    ****************************************************************************/
    if(argc < 4){
-      ERRMSG();
+      ERRMSG(argv[0]);
    }
 
    sigma = atof(argv[1]);
@@ -66,7 +66,7 @@ int main(int argc, char **argv)
 
 	dirfilename = NULL;
    int opt;
-   while((opt = getopt(argc, argv, "d:f:")) != -1){
+   while((opt = getopt(argc, argv, "df:")) != -1){
       switch(opt){
          case 'd':
             printf("[INFO] option d passed to program\n");
@@ -77,11 +77,12 @@ int main(int argc, char **argv)
             infile = optarg;
             printf("infile = '%s'\n", infile);
             break;
-         case '?': 
-            ERRMSG();
+         case '?':
+            ERRMSG(argv[0]);
             break;
       }
-      exit();
+   }
+   exit(1);
 
    VideoCapture cap;
    // open the default camera (/dev/video0) OR a video OR an image
