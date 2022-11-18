@@ -70,6 +70,7 @@ int main(int argc, char **argv)
             if (infile == "tiger_face.jpg") {
                WIDTH = 888;
                HEIGHT = 900;
+               NFRAME = 1;
             } else if (infile == "ground_crew.h264") {
                WIDTH = 1280;
                HEIGHT = 720;
