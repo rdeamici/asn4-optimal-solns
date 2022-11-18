@@ -95,9 +95,10 @@ int main(int argc, char **argv)
    VideoCapture cap;
    // open the default camera (/dev/video0) OR a video OR an image
    // Check VideoCapture documentation for more details
-   if(infile == NULL && !cap.open(0)) {
-      printf("Failed to open media\n");
-      return 0;
+   if(infile == NULL)
+      if(!cap.open(0)) {
+         printf("Failed to open media\n");
+      }
    } 
    else if(!cap.open(infile)) {
       printf("Failed to open media\n");
