@@ -106,6 +106,7 @@ int main(int argc, char **argv)
    cap.set(CAP_PROP_FRAME_HEIGHT, HEIGHT);
    printf("Media Input: %.0f, %.0f\n",cap.get(CAP_PROP_FRAME_WIDTH), cap.get(CAP_PROP_FRAME_HEIGHT));
    rows = cap.get(CAP_PROP_FRAME_HEIGHT);
+   cols = cap.get(CAP_PROP_FRAME_WIDTH);
    printf("rows = %d, cols = %d\n",rows, cols);
     // For low-end CPUs, may wait a while until camera stabilizes
    printf("Sleep 3 seconds for camera stabilization...\n");
