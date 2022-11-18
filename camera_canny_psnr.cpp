@@ -85,7 +85,7 @@ int main(int argc, char **argv)
             break;
       }
    }
-   
+
    sigma = atof(argv[1]);
    tlow = atof(argv[2]);
    thigh = atof(argv[3]);
@@ -95,20 +95,21 @@ int main(int argc, char **argv)
    VideoCapture cap;
    // open the default camera (/dev/video0) OR a video OR an image
    // Check VideoCapture documentation for more details
-   if(infile == NULL)
+   if(infile == NULL) {
       if(!cap.open(0)) {
          printf("Failed to open media\n");
+        return 0;
       }
    	cap.set(CAP_PROP_FRAME_WIDTH, WIDTH); // Set input resolution when the video is captured from /dev/video*, i.e. the webcam.
       cap.set(CAP_PROP_FRAME_HEIGHT, HEIGHT);
-   } 
+   }
    else if(!cap.open(infile)) {
       printf("Failed to open media\n");
       return 0;
-	}
-	printf("Media Input: %.0f, %.0f\n", cap.get(CAP_PROP_FRAME_WIDTH), cap.get(CAP_PROP_FRAME_HEIGHT));
+   }
+   printf("Media Input: %.0f, %.0f\n", cap.get(CAP_PROP_FRAME_WIDTH), cap.get(CAP_PROP_FRAME_HEIGHT));
 
-	 // For low-end CPUs, may wait a while until camera stabilizes
+    // For low-end CPUs, may wait a while until camera stabilizes
    printf("Sleep 3 seconds for camera stabilization...\n");
    usleep(3*1e6);
    printf("=== Start Canny Edge Detection: %.0f frames ===\n", NFRAME);
