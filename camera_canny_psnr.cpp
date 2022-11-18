@@ -6,6 +6,7 @@
 #include "canny_util.h"
 #include "calcpsnr.h"
 #include <sys/time.h>
+#include <string.h>
 using namespace std;
 using namespace cv;
 
@@ -67,10 +68,10 @@ int main(int argc, char **argv)
             break;
          case 'f':
             infile = optarg;
-            if (infile == "tiger_face.jpg") {
+            if (strcmp(infile,"tiger_face.jpg") == 0) {
                WIDTH = 888;
                HEIGHT = 900;
-            } else if (infile == "ground_crew.h264") {
+            } else if (strcmp(infile,"ground_crew.h264") == 0) {
                WIDTH = 1280;
                HEIGHT = 720;
             } else {
