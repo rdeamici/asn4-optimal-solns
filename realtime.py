@@ -1,7 +1,7 @@
 import sys
 
-log = sys.argv[1]
-size = sys.argv[2]
+size = sys.argv[1]
+log = sys.argv[2]
 with open(log) as real:
     found_one = 0
     for line in real:
