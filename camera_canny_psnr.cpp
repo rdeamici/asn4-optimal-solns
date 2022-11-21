@@ -66,7 +66,6 @@ int main(int argc, char **argv)
    thigh = atof(argv[3]);
    cols = WIDTH = atoi(argv[4]);
    rows = HEIGHT = atoi(argv[5]);
-   printf("\nwidth = %d, height = %d\n",WIDTH, HEIGHT);
    while((opt = getopt(argc, argv, "df:")) != -1){
       switch(opt){
          case 'd':
@@ -93,7 +92,6 @@ int main(int argc, char **argv)
    Mat frame, grayframe;
 
    if(infile == NULL) {
-      printf("opening default camera\n");
       VideoCapture incap;
       if(!incap.open(0)) {
         printf("Failed to open media\n");
@@ -123,14 +121,13 @@ int main(int argc, char **argv)
       //cap.set(CAP_PROP_FRAME_WIDTH, MWIDTH);
       //cap.set(CAP_PROP_FRAME_HEIGHT, MHEIGHT);
    } else {
-      printf("opening %s\n",infile);
       if(!cap.open(infile)) {
          printf("Failed to open media\n");
          return 0;
       }
    }
 
-   printf("Media Input: %.0f, %.0f\n",cap.get(CAP_PROP_FRAME_WIDTH), cap.get(CAP_PROP_FRAME_HEIGHT));
+   // printf("Media Input: %.0f, %.0f\n",cap.get(CAP_PROP_FRAME_WIDTH), cap.get(CAP_PROP_FRAME_HEIGHT));
 
    // For low-end CPUs, may wait a while until camera stabilizes
    // printf("Sleep 3 seconds for camera stabilization...\n");
@@ -140,7 +137,7 @@ int main(int argc, char **argv)
    struct timeval start, end;
    count = 0;
    gettimeofday(&start,NULL);
-   printf("=== Canny Edge Detection %d x %d: sigma %f, tlow %f, thigh %f, %.0f frames ===\n",WIDTH, HEIGHT, sigma, tlow, thigh, NFRAME);
+   printf("\n=== Canny Edge Detection %d x %d: sigma %f, tlow %f, thigh %f, %.0f frames ===\n",WIDTH, HEIGHT, sigma, tlow, thigh, NFRAME);
 
    while(count<NFRAME) {
       //capture
