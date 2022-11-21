@@ -1,0 +1,240 @@
+
+=== Canny Edge Detection 200 x 200: sigma 1.000000, tlow 0.200000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 0.106809 sec.
+FPS: 9.362507.
+Average PSNR value = 5.03 
+
+=== Canny Edge Detection 640 x 480: sigma 1.000000, tlow 0.200000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 0.259508 sec.
+FPS: 3.853446.
+Average PSNR value = 4.90 
+
+=== Canny Edge Detection 1500 x 1350: sigma 1.000000, tlow 0.200000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 1.307228 sec.
+FPS: 0.764977.
+Average PSNR value = 4.83 
+
+=== Canny Edge Detection 200 x 200: sigma 1.000000, tlow 0.200000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 0.106162 sec.
+FPS: 9.419566.
+Average PSNR value = 4.96 
+
+=== Canny Edge Detection 640 x 480: sigma 1.000000, tlow 0.200000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 0.257978 sec.
+FPS: 3.876300.
+Average PSNR value = 4.88 
+
+=== Canny Edge Detection 1500 x 1350: sigma 1.000000, tlow 0.200000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 1.331652 sec.
+FPS: 0.750947.
+Average PSNR value = 4.84 
+
+=== Canny Edge Detection 200 x 200: sigma 1.000000, tlow 0.900000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 0.105421 sec.
+FPS: 9.485776.
+Average PSNR value = 4.97 
+
+=== Canny Edge Detection 640 x 480: sigma 1.000000, tlow 0.900000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 0.251886 sec.
+FPS: 3.970050.
+Average PSNR value = 4.94 
+
+=== Canny Edge Detection 1500 x 1350: sigma 1.000000, tlow 0.900000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 1.287088 sec.
+FPS: 0.776948.
+Average PSNR value = 4.85 
+
+=== Canny Edge Detection 200 x 200: sigma 1.000000, tlow 0.900000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 0.105648 sec.
+FPS: 9.465395.
+Average PSNR value = 5.03 
+
+=== Canny Edge Detection 640 x 480: sigma 1.000000, tlow 0.900000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 0.254323 sec.
+FPS: 3.932008.
+Average PSNR value = 4.94 
+
+=== Canny Edge Detection 1500 x 1350: sigma 1.000000, tlow 0.900000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 1.313232 sec.
+FPS: 0.761480.
+Average PSNR value = 4.86 
+
+=== Canny Edge Detection 200 x 200: sigma 0.500000, tlow 0.200000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 0.103067 sec.
+FPS: 9.702427.
+Average PSNR value = 5.05 
+
+=== Canny Edge Detection 640 x 480: sigma 0.500000, tlow 0.200000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 0.241347 sec.
+FPS: 4.143412.
+Average PSNR value = 4.93 
+
+=== Canny Edge Detection 1500 x 1350: sigma 0.500000, tlow 0.200000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 1.192758 sec.
+FPS: 0.838393.
+Average PSNR value = 4.86 
+
+=== Canny Edge Detection 200 x 200: sigma 0.500000, tlow 0.200000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 0.104417 sec.
+FPS: 9.576985.
+Average PSNR value = 4.97 
+
+=== Canny Edge Detection 640 x 480: sigma 0.500000, tlow 0.200000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 0.243582 sec.
+FPS: 4.105394.
+Average PSNR value = 4.92 
+
+=== Canny Edge Detection 1500 x 1350: sigma 0.500000, tlow 0.200000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 1.206769 sec.
+FPS: 0.828659.
+Average PSNR value = 4.88 
+
+=== Canny Edge Detection 200 x 200: sigma 0.500000, tlow 0.900000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 0.102807 sec.
+FPS: 9.726964.
+Average PSNR value = 5.04 
+
+=== Canny Edge Detection 640 x 480: sigma 0.500000, tlow 0.900000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 0.238551 sec.
+FPS: 4.191976.
+Average PSNR value = 4.96 
+
+=== Canny Edge Detection 1500 x 1350: sigma 0.500000, tlow 0.900000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 1.180549 sec.
+FPS: 0.847064.
+Average PSNR value = 4.86 
+
+=== Canny Edge Detection 200 x 200: sigma 0.500000, tlow 0.900000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 0.104090 sec.
+FPS: 9.607071.
+Average PSNR value = 5.08 
+
+=== Canny Edge Detection 640 x 480: sigma 0.500000, tlow 0.900000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 0.240792 sec.
+FPS: 4.152962.
+Average PSNR value = 4.97 
+
+=== Canny Edge Detection 1500 x 1350: sigma 0.500000, tlow 0.900000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 1.197562 sec.
+FPS: 0.835030.
+Average PSNR value = 4.88 
+
+=== Canny Edge Detection 200 x 200: sigma 1.000000, tlow 0.200000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 0.105511 sec.
+FPS: 9.477685.
+Average PSNR value = 5.03 
+
+=== Canny Edge Detection 640 x 480: sigma 1.000000, tlow 0.200000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 0.254020 sec.
+FPS: 3.936698.
+Average PSNR value = 4.90 
+
+=== Canny Edge Detection 1500 x 1350: sigma 1.000000, tlow 0.200000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 1.321016 sec.
+FPS: 0.756993.
+Average PSNR value = 4.83 
+
+=== Canny Edge Detection 200 x 200: sigma 1.000000, tlow 0.200000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 0.108223 sec.
+FPS: 9.240180.
+Average PSNR value = 4.96 
+
+=== Canny Edge Detection 640 x 480: sigma 1.000000, tlow 0.200000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 0.256804 sec.
+FPS: 3.894020.
+Average PSNR value = 4.88 
+
+=== Canny Edge Detection 1500 x 1350: sigma 1.000000, tlow 0.200000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 1.326168 sec.
+FPS: 0.754052.
+Average PSNR value = 4.84 
+
+=== Canny Edge Detection 200 x 200: sigma 1.000000, tlow 0.900000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 0.104520 sec.
+FPS: 9.567547.
+Average PSNR value = 4.97 
+
+=== Canny Edge Detection 640 x 480: sigma 1.000000, tlow 0.900000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 0.252389 sec.
+FPS: 3.962138.
+Average PSNR value = 4.94 
+
+=== Canny Edge Detection 1500 x 1350: sigma 1.000000, tlow 0.900000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 1.284730 sec.
+FPS: 0.778374.
+Average PSNR value = 4.85 
+
+=== Canny Edge Detection 200 x 200: sigma 1.000000, tlow 0.900000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 0.105629 sec.
+FPS: 9.467097.
+Average PSNR value = 5.03 
+
+=== Canny Edge Detection 640 x 480: sigma 1.000000, tlow 0.900000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 0.256595 sec.
+FPS: 3.897192.
+Average PSNR value = 4.94 
+
+=== Canny Edge Detection 1500 x 1350: sigma 1.000000, tlow 0.900000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 1.316218 sec.
+FPS: 0.759753.
+Average PSNR value = 4.86 
+
+=== Canny Edge Detection 200 x 200: sigma 0.500000, tlow 0.200000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 0.103777 sec.
+FPS: 9.636047.
+Average PSNR value = 5.05 
+
+=== Canny Edge Detection 640 x 480: sigma 0.500000, tlow 0.200000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 0.240629 sec.
+FPS: 4.155775.
+Average PSNR value = 4.93 
+
+=== Canny Edge Detection 1500 x 1350: sigma 0.500000, tlow 0.200000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 1.215035 sec.
+FPS: 0.823022.
+Average PSNR value = 4.86 
+
+=== Canny Edge Detection 200 x 200: sigma 0.500000, tlow 0.200000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 0.103472 sec.
+FPS: 9.664450.
+Average PSNR value = 4.97 
+
+=== Canny Edge Detection 640 x 480: sigma 0.500000, tlow 0.200000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 0.244424 sec.
+FPS: 4.091251.
+Average PSNR value = 4.92 
+
+=== Canny Edge Detection 1500 x 1350: sigma 0.500000, tlow 0.200000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 1.205029 sec.
+FPS: 0.829856.
+Average PSNR value = 4.88 
+
+=== Canny Edge Detection 200 x 200: sigma 0.500000, tlow 0.900000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 0.103199 sec.
+FPS: 9.690016.
+Average PSNR value = 5.04 
+
+=== Canny Edge Detection 640 x 480: sigma 0.500000, tlow 0.900000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 0.240004 sec.
+FPS: 4.166597.
+Average PSNR value = 4.96 
+
+=== Canny Edge Detection 1500 x 1350: sigma 0.500000, tlow 0.900000, thigh 0.600000, 1 frames ===
+Total Elapsed Time : 1.171182 sec.
+FPS: 0.853838.
+Average PSNR value = 4.86 
+
+=== Canny Edge Detection 200 x 200: sigma 0.500000, tlow 0.900000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 0.105037 sec.
+FPS: 9.520455.
+Average PSNR value = 5.08 
+
+=== Canny Edge Detection 640 x 480: sigma 0.500000, tlow 0.900000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 0.238880 sec.
+FPS: 4.186202.
+Average PSNR value = 4.97 
+
+=== Canny Edge Detection 1500 x 1350: sigma 0.500000, tlow 0.900000, thigh 0.400000, 1 frames ===
+Total Elapsed Time : 1.206303 sec.
+FPS: 0.828979.
+Average PSNR value = 4.88 
