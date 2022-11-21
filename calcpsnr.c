@@ -33,6 +33,10 @@ double calcpsnr(char* original_file, char* eval_file)
   if(filetype_orig == '6') size *= 3;
   double mean_square_error = mse(orig_ifp, eval_ifp, size);
   double peak_signal_noise_ratio = psnr(mean_square_error);
+
+  fclose(orig_ifp);
+  fclose(eval_ifp);
+
   return peak_signal_noise_ratio;
 }
 
