@@ -1,4 +1,4 @@
-./psnr 1 0.2 0.6 200 200 -f ground_crew.h264 >> ground_crew_experiment.log
+./psnr 1 0.2 0.6 200 200 -f ground_crew.h264 > ground_crew_experiment.log
 ./psnr 1 0.2 0.6 640 480 -f ground_crew.h264 >> ground_crew_experiment.log
 ./psnr 1 0.2 0.6 1500 1350 -f ground_crew.h264 >> ground_crew_experiment.log
 ./psnr 1 0.2 0.4 200 200 -f ground_crew.h264 >> ground_crew_experiment.log
